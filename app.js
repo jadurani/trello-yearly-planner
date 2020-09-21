@@ -1,19 +1,19 @@
-// debugger;
 
-Trello.authorize({
-  name: "RAWR",
-  persist: false,
-  expiration: "1hour",
-  scope: { read: true, write: true, account: false },
-  success: (maw) => {
-    console.log(maw, 'SUCCESS')
-    Trello.members.get(
-      "me",
-      { fields: "username,fullName" },
-      (rawr) => console.log({rawr}),
-      (meow) => console.error({meow})
-    );
+auth = () => {
+  return new Promise((resolve, reject) => {
+    Trello.authorize({
+      name: "RAWR",
+      persist: false,
+      expiration: "1hour",
+      scope: { read: true, write: true, account: false },
+      success: () => resolve(),
+      error: (maw) => {console.error(maw, 'NO!'); reject()}
+    });
+  })
+}
 
+createTeam = () => {
+  return new Promise((resolve, reject) => {
     Trello.post(
       "organizations",
       {
@@ -21,17 +21,115 @@ Trello.authorize({
         desc: "test desc",
         name: "sample name",
       },
-      (postOrg) => console.log({postOrg}),
-      (postOrgErr) => console.error({postOrgErr})
+      (postOrg) => {
+        console.log({postOrg})
+        resolve(postOrg)
+      },
+      (postOrgErr) => {
+        console.error({postOrgErr})
+        reject(postOrgErr)
+      }
     );
+  });
+};
+
+getTeam = () => {
+  return new Promise((resolve, reject) => {
+    Trello.get(
+      `organizations/5f6757c16319908b79546dbc`,
+      {
+        displayName: "2114-test-org",
+        desc: "test desc",
+        name: "sample name",
+      },
+      (postOrg) => {
+        console.log({postOrg})
+        resolve(postOrg)
+      },
+      (postOrgErr) => {
+        console.error({postOrgErr})
+        reject(postOrgErr)
+      }
+    );
+  });
+};
+
+createBoard = async (boardName, teamId) => {
+  return new Promise((resolve, reject) => {
+    Trello.post(
+      "boards",
+      {
+        "name": boardName,
+        "defaultLabels": "false",
+        "defaultLists": "false",
+        "idOrganization": teamId,
+        "keepFromSource": "none",
+        "prefs_permissionLevel": "org",
+        "prefs_voting": "disabled",
+        "prefs_comments": "members",
+        "prefs_invitations": "admins",
+        "prefs_selfJoin": "true",
+        "prefs_cardCovers": "true",
+        "prefs_background": "blue",
+        "prefs_cardAging": "regular"
+      },
+      (lkjlkj) => {
+        console.log({lkjlkj})
+        resolve(lkjlkj)
+      },
+      (dajflkjERR) => {
+        console.error(boardName, teamId, {dajflkjERR})
+        reject(dajflkjERR)
+      }
+    )
+  });
+}
+
+createList = async (weekNum, boardId) => {
+  weekStart = moment().week(weekNum).day(1).format("MMMDD")
+  weekEnd = moment().week(weekNum).day(7).format("MMMDD")
+  listName = `${weekStart}-${weekEnd}`
+  console.log(listName)
+  return new Promise((resolve, reject) => {
+    Trello.post(
+      `boards/${boardId}/lists`,
+      {
+        name: listName,
+        idBoard: boardId,
+        pos: "bottom"
+      },
+      () => {console.log('resolve'); resolve()},
+      () => {console.log('reject'); reject()}
+    )
+  })
+}
 
 
-    Trello.members.get(
-      "me/organizations",
-      // { fields: "username,fullName" },
-      (rawr) => console.log({rawr}),
-      (meow) => console.error({meow})
-    );
-  },
-  error: (maw) => console.error(maw, 'NO!')
-});
+auth();
+
+main = async () => {
+  teamId = (await createTeam()).id;
+
+  quarterNum = 0;
+  boardId = '';
+  goodStuffBoardId = ''
+
+  // Create boards per quarter
+  // Create boards per
+  for (let weekNum = 0; weekNum < 52; weekNum++) {
+    weekNumTitle = `2021-W${weekNum + 1}`;
+    console.log(weekNumTitle);
+    if (weekNum % 13 === 0) {
+      quarterNum += 1;
+      boardName = `2021-Q${quarterNum}`;
+      boardId = (await createBoard(boardName, teamId)).id;
+      // console.log(boardName + '>>>>>>>>' + boardName)
+      debugger;
+      goodStuffBoardId = (await createBoard(`${boardName}-GoodStuff`, teamId)).id;
+    }
+
+    createList(weekNum, boardId);
+    createList(weekNum, goodStuffBoardId);
+  }
+}
+main();
