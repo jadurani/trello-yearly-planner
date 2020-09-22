@@ -129,6 +129,56 @@ createTaskStatusList = async (boardId) => {
   }));
 }
 
+createLabels = async (boardId) => {
+  const labelList = [
+    {
+      color: "green",
+      name: "Yoga / Fitness / Exercise / Health / Diet",
+    },
+    {
+      color: "yellow",
+      name: "Tech Work",
+    },
+    {
+      color: "red",
+      name: "Business / Entrepreneurship / Self-development / Financial",
+    },
+    {
+      color: "purple",
+      name: "Bhakti / Family / Community / Service",
+    },
+    {
+      color: "blue",
+      name: "Friends",
+    },
+    {
+      color: "sky",
+      name: "Adventure / Photography / Videography / Music / Creative Pursuits",
+    },
+    {
+      color: "pink",
+      name: "Personal / Misc",
+    },
+    {
+      color: "black",
+      name: "Chores"
+    }
+  ];
+
+  return Promise.all(labelList.map(async label => {
+    return new Promise((resolve, reject) => {
+      Trello.post(
+        `labels/`,
+        {
+          ...label,
+          idBoard: boardId,
+        },
+        (id) => {console.log('created ', label, id); resolve()},
+        () => {console.log('rejected ', label); reject()}
+      )
+    });
+  }));
+}
 
 auth();
 
@@ -149,6 +199,7 @@ main = async () => {
       boardName = `2021-Q${quarterNum}`;
       boardId = (await createBoard(boardName, teamId)).id;
       await createTaskStatusList(boardId);
+      await createLabels(boardId);
       goodStuffBoardId = (await createBoard(`${boardName}-GoodStuff`, teamId)).id;
     }
 
