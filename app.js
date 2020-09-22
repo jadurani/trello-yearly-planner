@@ -180,6 +180,45 @@ createLabels = async (boardId) => {
   }));
 }
 
+addListLabel = async (boardId) => {
+  const labels = await new Promise((resolve, reject) => {
+    Trello.get(
+      `boards/${boardId}/labels`,
+      (label) => {console.log('resolve'); resolve(label)},
+      () => {console.log('reject'); reject()}
+    )
+  });
+
+  const listId = await new Promise((resolve, reject) => {
+    Trello.post(
+      `boards/${boardId}/lists`,
+      {
+        name: "Labels",
+        idBoard: boardId,
+        pos: "top"
+      },
+      ({id}) => resolve(id),
+      () => reject()
+    )
+  });
+
+  return Promise.all(labels.map(labelObj => {
+    return new Promise((resolve, reject) => {
+      Trello.post(
+        "cards",
+        {
+          name: labelObj.name,
+          idList: listId,
+          idLabels: labelObj.id,
+          pos: "bottom"
+        },
+        ({id}) => {console.log("createdcard"); resolve(id)},
+        () => reject()
+      )
+    })
+  }))
+}
+
 auth();
 
 main = async () => {
@@ -200,6 +239,7 @@ main = async () => {
       boardId = (await createBoard(boardName, teamId)).id;
       await createTaskStatusList(boardId);
       await createLabels(boardId);
+      await addListLabel(boardId);
       goodStuffBoardId = (await createBoard(`${boardName}-GoodStuff`, teamId)).id;
     }
 
