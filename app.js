@@ -86,8 +86,8 @@ createBoard = async (boardName, teamId) => {
 }
 
 createList = async (weekNum, boardId) => {
-  weekStart = moment().week(weekNum).day(1).format("MMMDD")
-  weekEnd = moment().week(weekNum).day(7).format("MMMDD")
+  weekStart = moment('2021').week(weekNum).day(1).format("MMMDD")
+  weekEnd = moment('2021').week(weekNum).day(7).format("MMMDD")
   listName = `${weekStart}-${weekEnd}`
   console.log(listName)
   return new Promise((resolve, reject) => {
@@ -102,6 +102,31 @@ createList = async (weekNum, boardId) => {
       () => {console.log('reject'); reject()}
     )
   })
+}
+
+createTaskStatusList = async (boardId) => {
+  const listNames = [
+    "Won't Do",
+    "Backlog",
+    "Ongoing (long-term)",
+    "Doing today",
+    "Doing now"
+  ]
+
+  return Promise.all(listNames.map(async listName => {
+    return new Promise((resolve, reject) => {
+      Trello.post(
+        `boards/${boardId}/lists`,
+        {
+          name: listName,
+          idBoard: boardId,
+          pos: "bottom"
+        },
+        ({id}) => {console.log('created ', listName, {id}); resolve()},
+        () => {console.log('rejected ', listName); reject()}
+      )
+    });
+  }));
 }
 
 
@@ -123,12 +148,11 @@ main = async () => {
       quarterNum += 1;
       boardName = `2021-Q${quarterNum}`;
       boardId = (await createBoard(boardName, teamId)).id;
-      // console.log(boardName + '>>>>>>>>' + boardName)
-      debugger;
+      await createTaskStatusList(boardId);
       goodStuffBoardId = (await createBoard(`${boardName}-GoodStuff`, teamId)).id;
     }
 
-    createList(weekNum, boardId);
+    await createList(weekNum, boardId);
     createList(weekNum, goodStuffBoardId);
   }
 }
