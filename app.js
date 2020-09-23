@@ -247,4 +247,22 @@ main = async () => {
     createList(weekNum, goodStuffBoardId);
   }
 }
-main();
+// main();
+
+
+
+// Trello.get(
+//   "members/me/organizations",
+//   (boardList) => {
+//     const IDs = boardList.filter(board => board.displayName.match(/2114-test-org/)).map(board => board.id)
+//     console.log(IDs)
+//     IDs.forEach(id => {
+//       Trello.delete(
+//         `organizations/${id}`,
+//         (r) => console.log(r),
+//         (r) => console.error(r)
+//       )
+//     });
+//   },
+//   (e) => console.error(e)
+// );
