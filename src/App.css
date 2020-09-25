@@ -1,0 +1,8 @@
+.section-preview {
+  background: #fec8c5 url(bg.jpg) repeat fixed center;
+}
+
+.board-preview {
+  background-color: rgb(235, 236, 240);
+  border-radius: 3px;
+}
