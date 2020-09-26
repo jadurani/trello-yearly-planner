@@ -13,11 +13,6 @@
   border-radius: 4px;
 }
 
-.board-preview {
-  background-color: rgb(235, 236, 240);
-  border-radius: 3px;
-}
-
 .team-name {
   min-width: 50px;
   font-weight: 600;
@@ -50,4 +45,33 @@
 
 .board-tile-title {
   font-weight: 600;
+}
+
+
+
+.board-preview {
+  background-color: rgb(0, 121, 191);
+  border-radius: 4px;
+}
+
+.board-name {
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+}
+
+.list {
+  background-color: rgb(235, 236, 240);
+  color: rgb(23, 43, 77);
+  border-radius: 4px;
+}
+
+.list-title {
+  font-weight: 600;
+}
+
+.card {
+  background-color: rgb(255, 255, 255);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  width: 150px;
 }
