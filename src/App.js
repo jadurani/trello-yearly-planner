@@ -41,11 +41,11 @@ function App() {
       <div className="section-preview col-md-6 p-0 d-flex flex-column">
         {/* STEP 1 - INTRO */}
         {/* 1 - container*/}
-        <div className="board-preview h-50 w-50 m-auto p-3">
-          <div>
-            title here
+        <div className="team-preview h-50 w-75 d-flex flex-column m-auto p-3">
+          <div class="team-name">
+            Team Name!!
           </div>
-          <div>
+          <div class="flex-grow-1 d-flex justify-content-center align-items-center">
             Your boards will appear here.
           </div>
         </div>
