@@ -70,17 +70,26 @@ function App() {
         </div> */}
 
         {/* 3 - container */}
-        <div className="board-preview h-50 w-75 d-flex flex-column m-auto p-3">
-          <div class="board-name">
+        <div className="board-preview h-50 w-75 d-flex flex-column m-auto">
+          <div class="board-name p-3">
             Board Name!!
           </div>
-          <div class="flex-grow-1 d-flex py-2">
-            <div class="list p-2 mr-2">
+          <div class="board-body flex-grow-1 d-flex pt-2 pb-4 u-fancy-scrollbar">
+            <div class="list p-2 ml-3 mr-2 d-flex flex-column">
               <div class="list-title">
                 Week 1
               </div>
               {/* card list container */}
-              <div class="card-list my-2">
+              <div class="card-list flex-grow-1 my-2 u-fancy-scrollbar">
+                <div class="card p-2 mb-2">
+                  Card Item
+                </div>
+                <div class="card p-2 mb-2">
+                  Card Item
+                </div>
+                <div class="card p-2 mb-2">
+                  Card Item
+                </div>
                 <div class="card p-2 mb-2">
                   Card Item
                 </div>
@@ -93,6 +102,17 @@ function App() {
               </div>
             </div>
             <div class="list p-2 mr-2">
+              <div class="list-title">
+                Week 2
+              </div>
+              {/* card list container */}
+              <div class="card-list my-2">
+                <div class="card p-2">
+                  Card Item
+                </div>
+              </div>
+            </div>
+            <div class="list p-2 mr-4 u-fancy-scrollbar">
               <div class="list-title">
                 Week 2
               </div>
