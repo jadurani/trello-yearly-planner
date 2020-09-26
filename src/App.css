@@ -9,7 +9,7 @@
 /* 172b4d */
 
 .team-preview {
-  background-color: rgb(248, 248, 248);
+  background-color: rgb(255, 255, 255);
   border-radius: 4px;
 }
 
@@ -38,4 +38,16 @@
   height: 100%;
   background-color: black;
   border-radius: 4px;
+}
+
+.board-tile {
+  background-color: rgb(0, 121, 191);
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  /* width: 180px; */
+  height: 100px;
+}
+
+.board-tile-title {
+  font-weight: 600;
 }

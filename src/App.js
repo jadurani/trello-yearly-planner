@@ -41,15 +41,32 @@ function App() {
       <div className="section-preview col-md-6 p-0 d-flex flex-column">
         {/* STEP 1 - INTRO */}
         {/* 1 - container*/}
-        <div className="team-preview h-50 w-75 d-flex flex-column m-auto p-3">
+        {/* <div className="team-preview h-50 w-75 d-flex flex-column m-auto p-3">
           <div class="team-name">
             Team Name!!
           </div>
           <div class="flex-grow-1 d-flex justify-content-center align-items-center">
             Your boards will appear here.
           </div>
+        </div> */}
+        {/* 2 - container */}
+        <div className="team-preview h-50 w-75 d-flex flex-column m-auto p-3">
+          <div class="team-name">
+            Team Name!!
+          </div>
+          <div class="flex-grow-1 d-flex flex-wrap">
+            <div class="board-tile p-2 m-2">
+              <div class="board-tile-title">
+                2020Q4-GoodStuff
+              </div>
+            </div>
+            <div class="board-tile p-2 m-2">
+              <div class="board-tile-title">
+                2020Q4-GoodStuff
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
   );
