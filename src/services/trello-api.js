@@ -1,9 +1,11 @@
+const Trello = {...window.Trello};
+const moment = window.moment;
 
-auth = () => {
+export const auth = () => {
   return new Promise((resolve, reject) => {
     Trello.authorize({
-      name: "RAWR",
-      persist: false,
+      // name: "RAWR",
+      persist: true,
       expiration: "1hour",
       scope: { read: true, write: true, account: false },
       success: () => resolve(),
@@ -12,14 +14,13 @@ auth = () => {
   })
 }
 
-createTeam = () => {
+export const createTeam = (displayName) => {
   return new Promise((resolve, reject) => {
     Trello.post(
       "organizations",
       {
-        displayName: "2114-test-org",
-        desc: "test desc",
-        name: "sample name",
+        displayName: displayName,
+        name: displayName,
       },
       (postOrg) => {
         console.log({postOrg})
@@ -33,28 +34,28 @@ createTeam = () => {
   });
 };
 
-getTeam = () => {
-  return new Promise((resolve, reject) => {
-    Trello.get(
-      `organizations/5f6757c16319908b79546dbc`,
-      {
-        displayName: "2114-test-org",
-        desc: "test desc",
-        name: "sample name",
-      },
-      (postOrg) => {
-        console.log({postOrg})
-        resolve(postOrg)
-      },
-      (postOrgErr) => {
-        console.error({postOrgErr})
-        reject(postOrgErr)
-      }
-    );
-  });
-};
+// export const getTeam = () => {
+//   return new Promise((resolve, reject) => {
+//     Trello.get(
+//       `organizations/5f6757c16319908b79546dbc`,
+//       {
+//         displayName: "2114-test-org",
+//         desc: "test desc",
+//         name: "sample name",
+//       },
+//       (postOrg) => {
+//         console.log({postOrg})
+//         resolve(postOrg)
+//       },
+//       (postOrgErr) => {
+//         console.error({postOrgErr})
+//         reject(postOrgErr)
+//       }
+//     );
+//   });
+// };
 
-createBoard = async (boardName, teamId) => {
+const createBoard = async (boardName, teamId) => {
   return new Promise((resolve, reject) => {
     Trello.post(
       "boards",
@@ -85,10 +86,10 @@ createBoard = async (boardName, teamId) => {
   });
 }
 
-createList = async (weekNum, boardId) => {
-  weekStart = moment('2021').week(weekNum).day(1).format("MMMDD")
-  weekEnd = moment('2021').week(weekNum).day(7).format("MMMDD")
-  listName = `${weekStart}-${weekEnd}`
+const createList = async (weekNum, boardId) => {
+  const weekStart = moment('2021').week(weekNum).day(1).format("MMMDD")
+  const weekEnd = moment('2021').week(weekNum).day(7).format("MMMDD")
+  const listName = `${weekStart}-${weekEnd}`
   console.log(listName)
   return new Promise((resolve, reject) => {
     Trello.post(
@@ -104,7 +105,7 @@ createList = async (weekNum, boardId) => {
   })
 }
 
-createTaskStatusList = async (boardId) => {
+const createTaskStatusList = async (boardId) => {
   const listNames = [
     "Won't Do",
     "Backlog",
@@ -129,7 +130,7 @@ createTaskStatusList = async (boardId) => {
   }));
 }
 
-createLabels = async (boardId) => {
+const createLabels = async (boardId) => {
   const labelList = [
     {
       color: "green",
@@ -180,7 +181,7 @@ createLabels = async (boardId) => {
   }));
 }
 
-addListLabel = async (boardId) => {
+const addListLabel = async (boardId) => {
   const labels = await new Promise((resolve, reject) => {
     Trello.get(
       `boards/${boardId}/labels`,
@@ -219,23 +220,21 @@ addListLabel = async (boardId) => {
   }))
 }
 
-auth();
+const main = async () => {
+  const teamId = (await createTeam()).id;
 
-main = async () => {
-  teamId = (await createTeam()).id;
-
-  quarterNum = 0;
-  boardId = '';
-  goodStuffBoardId = ''
+  const quarterNum = 0;
+  const boardId = '';
+  const goodStuffBoardId = '';
 
   // Create boards per quarter
   // Create boards per
   for (let weekNum = 0; weekNum < 52; weekNum++) {
-    weekNumTitle = `2021-W${weekNum + 1}`;
+    const weekNumTitle = `2021-W${weekNum + 1}`;
     console.log(weekNumTitle);
     if (weekNum % 13 === 0) {
       quarterNum += 1;
-      boardName = `2021-Q${quarterNum}`;
+      let boardName = `2021Q${quarterNum}`;
       boardId = (await createBoard(boardName, teamId)).id;
       await createTaskStatusList(boardId);
       await createLabels(boardId);
@@ -247,22 +246,23 @@ main = async () => {
     createList(weekNum, goodStuffBoardId);
   }
 }
-// main();
 
-
-
-// Trello.get(
-//   "members/me/organizations",
-//   (boardList) => {
-//     const IDs = boardList.filter(board => board.displayName.match(/2114-test-org/)).map(board => board.id)
-//     console.log(IDs)
-//     IDs.forEach(id => {
-//       Trello.delete(
-//         `organizations/${id}`,
-//         (r) => console.log(r),
-//         (r) => console.error(r)
-//       )
-//     });
-//   },
-//   (e) => console.error(e)
-// );
+// export const deleteBoards = () => {
+//   debugger;
+//   Trello.get(
+//     "members/me/boards",
+//     (boardList) => {
+//       debugger;
+//       const IDs = boardList.filter(board => board.name.match(/2021/g)).map(board => board.id)
+//       console.log(IDs)
+//       IDs.forEach(id => {
+//         Trello.delete(
+//           `boards/${id}`,
+//           (r) => console.log(r),
+//           (r) => console.error(r)
+//         )
+//       });
+//     },
+//     (e) => console.error(e)
+//   );
+// }
