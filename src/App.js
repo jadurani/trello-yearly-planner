@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import './bootstrap.css';
+import { ALL } from 'dns';
 const moment = window.moment;
 // import { auth } from './services/trello-api';
 
@@ -59,6 +60,7 @@ function App() {
     "Doing now"
   ]
 
+  const ALL_BOARDS = []
   for (let weekNum = 0; weekNum < 52; weekNum++) {
     const weekStart = moment('2021').week(weekNum + 1).day(1).format("MMMDD")
     const weekEnd = moment('2021').week(weekNum + 1).day(7).format("MMMDD")
@@ -101,23 +103,30 @@ function App() {
     });
   }
 
+  boards.forEach((board, index) => {
+    ALL_BOARDS.push(board)
+    ALL_BOARDS.push(gratBoards[index]);
+  })
+
   console.log(boards);
   console.log(gratBoards);
+  console.log(ALL_BOARDS);
 
   return (
     <div className="row vh-100 p-0 m-0">
       {/* FORMS */}
-      <div className="col-md-6 p-0 d-flex flex-column justify-content-center align-items-center">
+      {/* <div className="col-md-6 p-0 d-flex flex-column justify-content-center align-items-center">
         <div>
           On the right is what will happen if you click the button below:
         </div>
         <button className="m-4">
           Button
         </button>
-      </div>
+      </div> */}
 
       {/* PREVIEW */}
-      <div className="section-preview col-md-6 p-0 d-flex flex-column">
+      {/* <div className="section-preview col-md-6 p-0 d-flex flex-column"> */}
+      <div className="section-preview col-12 p-0 d-flex flex-column">
         {/* STEP 1 - INTRO */}
         {/* 1 - container*/}
         {/* <div className="team-preview h-50 w-75 d-flex flex-column m-auto p-3">
@@ -135,46 +144,15 @@ function App() {
             2021Life
           </div>
           <div className="team-body flex-grow-1 d-flex flex-wrap pt-2 pb-4 u-fancy-scrollbar">
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1-GoodStuff
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1-GoodStuff
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1-GoodStuff
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1
-              </div>
-            </div>
-            <div className="board-tile p-2 mt-3 ml-3">
-              <div className="board-tile-title">
-                2021Q1-GoodStuff
-              </div>
-            </div>
+            {
+              ALL_BOARDS.map((board, index) => (
+                <div key={`board-${index}`} className="board-tile p-2 mt-3 ml-3">
+                  <div className="board-tile-title">
+                    {board.name}
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </div>
 
