@@ -6,7 +6,7 @@ const moment = window.moment;
 
 function App() {
 
-  let [activeBoardIdx, setActiveBoardIdx] = useState(0);
+  let [activeBoardIdx, setActiveBoardIdx] = useState(-1);
 
   const boards = [];
   const gratBoards = [];
@@ -175,68 +175,34 @@ function App() {
               <div className="board-name p-3">
                 { ALL_BOARDS[activeBoardIdx].name }
               </div>
-              <div className="board-body flex-grow-1 d-flex pt-2 pb-4 u-fancy-scrollbar">
-                <div className="list p-2 ml-3 mr-2 d-flex flex-column">
-                  <div className="list-title px-1">
-                    { ALL_BOARDS[activeBoardIdx].weekNames[0].name }
-                  </div>
-                  {/* card list container */}
-                  <div className="card-list my-2 u-fancy-scrollbar">
-                    {
-                      ALL_BOARDS[activeBoardIdx]
-                        .weekNames[0]
-                        .cards
-                        .map((card, index) => (
-                          <div className="card p-2 mb-2" key={`card-${index}`}>
-                            <div className="card-content">
-                              <div className={`card-label card-label--${card.color}`}></div>
-                              <div className="mt-2 pt-1">{ card.name }</div>
-                            </div>
+              <div className="board-body d-flex pt-2 mb-2 u-fancy-scrollbar">
+                {
+                  ALL_BOARDS[activeBoardIdx].weekNames.map((list, index) => {
+                    return (
+                      <div key={`list-${list.name}`} className="list-wrapper h-100 mr-2">
+                        <div className="list d-flex flex-column p-2">
+                          <div className="list-title px-1">
+                            { list.name }
                           </div>
-                        ))
-                    }
-                    {/* <div className="card p-2 mb-2">
-                      Card Item
-                    </div>
-                    <div className="card p-2 mb-2">
-                      Card Item
-                    </div>
-                    <div className="card p-2 mb-2">
-                      Card Item
-                    </div>
-                    <div className="card p-2 mb-2">
-                      Card Item
-                    </div>
-                    <div className="card p-2 mb-2">
-                      Card Item
-                    </div>
-                    <div className="card p-2 mb-2">
-                      Card Item
-                    </div> */}
-                  </div>
-                </div>
-                <div className="list p-2 mr-2">
-                  <div className="list-title">
-                    Week 2
-                  </div>
-                  {/* card list container */}
-                  <div className="card-list my-2">
-                    <div className="card p-2">
-                      Card Item
-                    </div>
-                  </div>
-                </div>
-                <div className="list p-2 mr-4 u-fancy-scrollbar">
-                  <div className="list-title">
-                    Week 2
-                  </div>
-                  {/* card list container */}
-                  <div className="card-list my-2">
-                    <div className="card p-2">
-                      Card Item
-                    </div>
-                  </div>
-                </div>
+                          {/* card list container */}
+                          <div className="card-list flex-grow-1 my-2 pr-2 u-fancy-scrollbar">
+                            {
+                              list.cards
+                                .map((card, index) => (
+                                  <div className="card p-2 mb-2" key={`card-${list.name}-${index}`}>
+                                    <div className="card-content">
+                                      <div className={`card-label card-label--${card.color}`}></div>
+                                      <div className="mt-2 pt-1">{ card.name }</div>
+                                    </div>
+                                  </div>
+                                ))
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })
+                }
               </div>
             </div>
           }
