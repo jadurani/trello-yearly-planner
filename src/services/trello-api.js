@@ -87,8 +87,8 @@ const createBoard = async (boardName, teamId) => {
 }
 
 const createList = async (weekNum, boardId) => {
-  const weekStart = moment('2021').week(weekNum).day(1).format("MMMDD")
-  const weekEnd = moment('2021').week(weekNum).day(7).format("MMMDD")
+  const weekStart = moment('2021').week(weekNum + 1).day(1).format("MMMDD")
+  const weekEnd = moment('2021').week(weekNum + 1).day(7).format("MMMDD")
   const listName = `${weekStart}-${weekEnd}`
   console.log(listName)
   return new Promise((resolve, reject) => {
@@ -131,34 +131,65 @@ const createTaskStatusList = async (boardId) => {
 }
 
 const createLabels = async (boardId) => {
+  // const labelList = [
+  //   {
+  //     color: "green",
+  //     name: "Yoga / Fitness / Exercise / Health / Diet",
+  //   },
+  //   {
+  //     color: "yellow",
+  //     name: "Tech Work",
+  //   },
+  //   {
+  //     color: "red",
+  //     name: "Business / Entrepreneurship / Self-development / Financial",
+  //   },
+  //   {
+  //     color: "purple",
+  //     name: "Bhakti / Family / Community / Service",
+  //   },
+  //   {
+  //     color: "blue",
+  //     name: "Friends",
+  //   },
+  //   {
+  //     color: "sky",
+  //     name: "Adventure / Photography / Videography / Music / Creative Pursuits",
+  //   },
+  //   {
+  //     color: "pink",
+  //     name: "Personal / Misc",
+  //   },
+  //   {
+  //     color: "black",
+  //     name: "Chores"
+  //   }
+  // ];
+
   const labelList = [
     {
       color: "green",
-      name: "Yoga / Fitness / Exercise / Health / Diet",
+      name: "Self-Development / Health / Fitness",
     },
     {
       color: "yellow",
-      name: "Tech Work",
+      name: "Work",
     },
     {
       color: "red",
-      name: "Business / Entrepreneurship / Self-development / Financial",
+      name: "Self-Development",
     },
     {
       color: "purple",
-      name: "Bhakti / Family / Community / Service",
+      name: "Causes",
     },
     {
       color: "blue",
-      name: "Friends",
+      name: "Socials",
     },
     {
       color: "sky",
-      name: "Adventure / Photography / Videography / Music / Creative Pursuits",
-    },
-    {
-      color: "pink",
-      name: "Personal / Misc",
+      name: "Hobbies",
     },
     {
       color: "black",
@@ -223,7 +254,7 @@ const addListLabel = async (boardId) => {
 const main = async () => {
   const teamId = (await createTeam()).id;
 
-  const quarterNum = 0;
+  let quarterNum = 0;
   const boardId = '';
   const goodStuffBoardId = '';
 
