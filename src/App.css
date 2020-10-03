@@ -111,3 +111,42 @@
   box-shadow: 0 1px 0 rgba(9,30,66,.25);
   width: 150px;
 }
+
+.card-content {
+  position: relative;
+}
+
+.card-label {
+  position: absolute;
+  width: 40px;
+  border-radius: 4px;
+  height: 8px;
+}
+
+.card-label--green {
+  background-color: #61bd4f;
+}
+
+.card-label--yellow {
+  background-color: #f2d600;
+}
+
+.card-label--red {
+  background-color: #eb5a46;
+}
+
+.card-label--purple {
+  background-color: #c377e0;
+}
+
+.card-label--blue {
+  background-color: #0079bf;
+}
+
+.card-label--sky {
+  background-color: #00c2e0;
+}
+
+.card-label--black {
+  background-color: #344563;
+}

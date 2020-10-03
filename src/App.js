@@ -6,7 +6,7 @@ const moment = window.moment;
 
 function App() {
 
-  let [activeBoardIdx, setActiveBoardIdx] = useState(-1);
+  let [activeBoardIdx, setActiveBoardIdx] = useState(0);
 
   const boards = [];
   const gratBoards = [];
@@ -27,7 +27,7 @@ function App() {
     {
       color: "red",
       hexCode: "#eb5a46",
-      name: "Self-Development",
+      name: "URGENT",
     },
     {
       color: "purple",
@@ -108,8 +108,8 @@ function App() {
     ALL_BOARDS.push(gratBoards[index]);
   })
 
-  console.log(boards);
-  console.log(gratBoards);
+  // console.log(boards);
+  // console.log(gratBoards);
   console.log(ALL_BOARDS);
 
   const openBoard = (selectedBoardIdx) => {
@@ -177,12 +177,25 @@ function App() {
               </div>
               <div className="board-body flex-grow-1 d-flex pt-2 pb-4 u-fancy-scrollbar">
                 <div className="list p-2 ml-3 mr-2 d-flex flex-column">
-                  <div className="list-title">
-                    Week 1
+                  <div className="list-title px-1">
+                    { ALL_BOARDS[activeBoardIdx].weekNames[0].name }
                   </div>
                   {/* card list container */}
-                  <div className="card-list flex-grow-1 my-2 u-fancy-scrollbar">
-                    <div className="card p-2 mb-2">
+                  <div className="card-list my-2 u-fancy-scrollbar">
+                    {
+                      ALL_BOARDS[activeBoardIdx]
+                        .weekNames[0]
+                        .cards
+                        .map((card, index) => (
+                          <div className="card p-2 mb-2" key={`card-${index}`}>
+                            <div className="card-content">
+                              <div className={`card-label card-label--${card.color}`}></div>
+                              <div className="mt-2 pt-1">{ card.name }</div>
+                            </div>
+                          </div>
+                        ))
+                    }
+                    {/* <div className="card p-2 mb-2">
                       Card Item
                     </div>
                     <div className="card p-2 mb-2">
@@ -199,7 +212,7 @@ function App() {
                     </div>
                     <div className="card p-2 mb-2">
                       Card Item
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="list p-2 mr-2">
